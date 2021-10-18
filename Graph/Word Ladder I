@@ -1,0 +1,88 @@
+/*
+  Question :-       Word Ladder I
+  
+  Problem Link :- https://practice.geeksforgeeks.org/problems/word-ladder/1
+  
+  Company Tag :-
+                   Adobe Amazon Google Flipkart
+                   
+  Level :- Hard
+*/
+
+
+#include<bits/stdc++.h>
+using namespace std;
+
+ // } Driver Code Ends
+class Solution {
+public:
+
+    //Youtube Codelibrary ref :- https://youtu.be/jvTa0t3-GQo
+    int wordLadderLength(string startWord, string targetWord, vector<string>& wordList)
+    {
+        // Code here
+        queue<string> q;
+        q.push(startWord);
+        
+        unordered_set<string> words;
+        for(int i=0; i<wordList.size(); i++)
+        {
+            words.insert(wordList[i]);
+        }
+        
+        if(words.find(targetWord) == words.end())
+        {
+            return 0;
+        }
+        
+        int len = 1;
+        
+        while(!q.empty())
+        {
+            int nq = q.size();
+            for(int i=0; i<nq; i++)
+            {
+                string word = q.front();
+                q.pop();
+                
+                for(int j=0; j<word.size(); j++)
+                {
+                    char temp = word[j];
+                    for(char ch='a'; ch<='z'; ch++)
+                    {
+                        word[j] = ch;
+                        
+                        if(words.find(word) != words.end())
+                        {
+                            if(word == targetWord) return len+1;
+                            q.push(word);
+                            words.erase(word);
+                        }
+                        word[j] = temp;
+                    }
+                }
+            }
+            len++;
+        }
+        
+        return 0;
+    }
+};
+
+// { Driver Code Starts.
+int main(){
+	int tc;
+	cin >> tc;
+	while(tc--){
+		int n;
+		cin >> n;
+		vector<string>wordList(n);
+		for(int i = 0; i < n; i++)cin >> wordList[i];
+		string startWord, targetWord;
+		cin >> startWord >> targetWord;
+		Solution obj;
+		int ans = obj.wordLadderLength(startWord, targetWord, wordList);
+		cout << ans << "\n";
+	}
+	return 0;
+}  // } Driver Code Ends
