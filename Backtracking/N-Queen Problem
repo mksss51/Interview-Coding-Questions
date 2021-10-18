@@ -1,0 +1,123 @@
+/*
+  Question :-   N - Queen Problem
+  
+  
+  Practice Link :- https://practice.geeksforgeeks.org/problems/n-queen-problem0315/1
+  
+  Conpany Tags :- 
+                      Accolite  , Amazon , Amdocs , D-E-Shaw , MAQ Software , Twitter  , Visa , Microsoft
+
+*/
+
+// Solution :-
+
+// Initial Template for C++
+
+#include <bits/stdc++.h>
+using namespace std;
+
+ // } Driver Code Ends
+// User function Template for C++
+
+class Solution{
+public:
+    bool isSafe(vector<vector<int>>&aux,int row,int col)
+    {
+        int i=row,j=col;
+        while(i>=0 && j>=0)
+        {
+            if(aux[i][j]==1)
+            {
+                return false;
+            }
+            i--;
+            j--;
+        }
+        i=row,j=col;
+        while(i>=0 && j<aux.size())
+        {
+            if(aux[i][j]==1)
+            {
+                return false;
+            }
+            i--;
+            j++;
+        }
+        i=row,j=col;
+        while(i>=0)
+        {
+            if(aux[i][j]==1)
+            {
+                return false;
+            }
+            i--;
+        }
+        return true;
+    }
+    
+    void solve(vector<vector<int>> &v, int x, int n, vector<vector<int>> &ans)
+    {
+        if(x == n)
+        {
+            vector<int> temp;
+            for(int i=0; i<n; i++)
+            {
+                for(int j=0; j<n; j++)
+                {
+                    if(v[i][j] == 1)
+                    {
+                        temp.push_back(j+1);
+                    }
+                }
+            }
+            ans.push_back(temp);
+            return;
+        }
+        
+        for(int col=0; col<n; col++)
+        {
+            if(isSafe(v, x, col))
+            {
+                v[x][col] = 1;
+                solve(v, x+1, n,ans);
+                v[x][col] = 0;
+            }
+        }
+    }
+    vector<vector<int>> nQueen(int n)
+    {
+        // code here
+        
+        vector<vector<int>> v(n, vector<int> (n,0));
+        vector<vector<int>> ans;
+        
+        solve(v, 0, n, ans);
+        return ans;
+    }
+};
+
+// { Driver Code Starts.
+
+int main(){
+    int t;
+    cin>>t;
+    while(t--){
+        int n;
+        cin>>n;
+        
+        Solution ob;
+        vector<vector<int>> ans = ob.nQueen(n);
+        if(ans.size() == 0)
+            cout<<-1<<"\n";
+        else {
+            for(int i = 0;i < ans.size();i++){
+                cout<<"[";
+                for(int u: ans[i])
+                    cout<<u<<" ";
+                cout<<"] ";
+            }
+            cout<<endl;
+        }
+    }
+    return 0;
+}  // } Driver Code Ends
